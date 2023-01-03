@@ -6,7 +6,7 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:37 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/03 11:31:51 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/03 15:51:07 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ char	*ft_find_end_of_line(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (str[i] == '\0')
+	if (str[i] != '\n' || str[i] != '\n')
 		return (NULL);
-	else
-		return (&str[i]);
+	return (&str[i]);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -51,10 +50,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	len += 1;
 	while (--len)
 	{
-		if (*s1)
-			jstring[i] = *(char *)s1++;
-		else
-			jstring[i] = *(char *)s2++;
+		if (s1)
+		{
+			if (*s1)
+				jstring[i] = *s1++;
+		}
+		if (*s2)
+			jstring[i] = *s2++;
 		i++;
 	}
 	jstring[i] = '\0';
@@ -69,7 +71,7 @@ char	*ft_remalloc(char *buf)
 
 	i_buf = 0;
 	i_tmp = 0;
-	while (buf[i_buf] != '\n')
+	while (buf[i_buf] != '\n' && buf[i_buf])
 		i_buf++;
 	i_buf++;
 	i_tmp = i_buf;
@@ -85,8 +87,7 @@ char	*ft_remalloc(char *buf)
 		i_tmp++;
 		i_buf++;
 	}
-	
-	return (":)");
+	return (tmp);
 }
 
 char	*ft_construct_return(char *save_line, char *buf)
@@ -97,7 +98,7 @@ char	*ft_construct_return(char *save_line, char *buf)
 
 	len_save_line = ft_strlen(save_line);
 	i = 0;
-	while (buf[i] != '\n')
+	while (buf[i] != '\n' && buf[i])
 		i++;
 	tmp = malloc (sizeof(char) * (len_save_line + i + 1));
 	if (!tmp)
@@ -109,11 +110,12 @@ char	*ft_construct_return(char *save_line, char *buf)
 		while (save_line[len_save_line])
 			tmp[len_save_line] = len_save_line;
 	}
-	while (buf[i] != '\n')
+	while (buf[i] != '\n' && buf[i])
 	{
 		tmp[len_save_line] = buf[i];
 		len_save_line++;
 		i++;
 	}
+	tmp[len_save_line] = buf[i];
 	return (tmp);
 }

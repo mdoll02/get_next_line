@@ -6,7 +6,7 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:51 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/03 11:03:30 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/03 15:22:15 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ char	*ft_construct_return(char *save_line, char *buf);
 #endif
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 69
+# define BUFFER_SIZE 100
 #endif
