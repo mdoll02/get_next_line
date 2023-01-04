@@ -6,12 +6,11 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:42 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/03 15:31:06 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/04 12:39:46 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -28,18 +27,17 @@ char	*get_next_line(int fd)
 	else
 	{
 		buf = remainder;
-		remainder = NULL;
+		remainder = NULL; // logic issue | maybe not??
 	}
 	while (!ft_find_end_of_line(buf))
 	{
 		remainder = ft_strjoin(remainder, buf);
-		printf("%s\n", remainder);
 		if (read(fd, buf, BUFFER_SIZE) == 0)
 			return (NULL);
 	}
 	ret = ft_construct_return(remainder, buf);
 	buf = ft_remalloc(buf);
 	remainder = buf;
-	buf = NULL;
+	free(buf);
 	return (ret);
 }

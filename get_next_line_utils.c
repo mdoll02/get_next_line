@@ -6,7 +6,7 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:37 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/03 15:51:07 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/04 12:38:46 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_find_end_of_line(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (str[i] != '\n' || str[i] != '\n')
+	if (str[i] == '\0') // removed \n condition
 		return (NULL);
 	return (&str[i]);
 }
