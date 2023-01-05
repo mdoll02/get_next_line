@@ -6,7 +6,7 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:37 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/03 15:51:07 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/05 12:22:40 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_find_end_of_line(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (str[i] != '\n' || str[i] != '\n')
+	if (str[i] == '\0') // removed \n condition
 		return (NULL);
 	return (&str[i]);
 }
@@ -48,14 +48,16 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (jstring == NULL)
 		return (NULL);
 	len += 1;
+	if (!s1)
+	{
+		s1 = malloc(sizeof(char) * 1);
+		s1[0] = '\0';
+	}
 	while (--len)
 	{
-		if (s1)
-		{
-			if (*s1)
-				jstring[i] = *s1++;
-		}
-		if (*s2)
+		if (*s1)
+			jstring[i] = *s1++;
+		else
 			jstring[i] = *s2++;
 		i++;
 	}
@@ -108,7 +110,10 @@ char	*ft_construct_return(char *save_line, char *buf)
 	if (save_line != NULL)
 	{
 		while (save_line[len_save_line])
-			tmp[len_save_line] = len_save_line;
+		{
+			tmp[len_save_line] = save_line[len_save_line];
+			len_save_line++;
+		}		
 	}
 	while (buf[i] != '\n' && buf[i])
 	{
