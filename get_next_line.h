@@ -6,7 +6,7 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:51 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/03 15:22:15 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:37:38 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-char	*ft_find_end_of_line(char *str);
+char	*ft_read(int fd, char *remainder);
+char	*ft_get_line(int fd, char *remainder);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_remalloc(char *buf);
-char	*ft_construct_return(char *save_line, char *buf);
+char	*ft_get_line(int fd, char *remainder);
+char	*ft_resize(char *remainder);
+int		ft_find_end(char *str);
+int		ft_strlen(char *str);
 
 #endif
 

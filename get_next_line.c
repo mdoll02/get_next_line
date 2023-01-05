@@ -6,7 +6,7 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:42 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/05 11:11:27 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/05 16:32:38 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,75 @@
 
 char	*get_next_line(int fd)
 {
-	char static				*remainder;
-	char					*buf;
-	char					*ret;
+	static char	*remainder;
+	char		*line;
 
-	if (fd == -1)
+	if (fd == -1 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (remainder == NULL)
+	remainder = ft_read(fd, remainder);
+	if (!remainder)
+		return (NULL);
+	line = ft_get_line(fd, remainder);
+	return (line);
+}
+
+char	*ft_read(int fd, char *remainder)
+{
+	static char	*buf;
+
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (read(fd, buf, BUFFER_SIZE) == -1)
 	{
-		buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (read(fd, buf, BUFFER_SIZE) <= 0)
-		{
-			free(buf);
-			return (NULL);
-		}
+		free(buf);
+		return (NULL);
 	}
-	else
+	buf = ft_strjoin(remainder, buf);
+	return (buf);
+}
+
+char	*ft_get_line(int fd, char *remainder)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	while (ft_find_end(remainder) == 0)
 	{
-		buf = remainder;
-		remainder = NULL; // logic issue | maybe not??
+		remainder = ft_read(fd, remainder);
 	}
-	while (!ft_find_end_of_line(buf))
+	while (remainder[i] != '\n')
+		i++;
+	line = malloc(sizeof(char) * (i + 1));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (remainder[i] != '\n')
 	{
-		remainder = ft_strjoin(remainder, buf);
-		if (read(fd, buf, BUFFER_SIZE) == 0)
-			break ;
+		line[i] = remainder[i];
+		i++;
 	}
-	ret = ft_construct_return(remainder, buf);
-	// ret = remainder;
-	buf = ft_remalloc(buf);
-	remainder = buf;
-	free(buf);
-	return (ret);
+	line[i] = '\n';
+	line[i + 1] = '\0';
+	ft_resize(remainder);
+	return (line);
+}
+
+char	*ft_resize(char *remainder)
+{
+	char	*tmp;
+	int		start;
+	int		i;
+
+	i = 0;
+	start = ft_find_end(remainder);
+	tmp = malloc(sizeof(char) * (ft_strlen(remainder) - start + 1));
+	if (!tmp)
+		return (NULL);
+	while (remainder[start])
+	{
+		tmp[i] = remainder[start];
+		i++;
+		start++;
+	}
+	*remainder = *tmp;
 }
