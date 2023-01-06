@@ -6,13 +6,13 @@
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:37 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/05 16:38:25 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:14:40 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
+size_t	ft_strlen(char *str)
 {
 	int	i;
 
@@ -24,43 +24,51 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int	ft_find_end(char *str)
+char	*ft_strchr(const char *s, int c)
 {
-	int	i;
+	int				i;
+	char			*str;
+	unsigned char	uc;
 
+	if (!s)
+		return (NULL);
+	str = (char *) s;
 	i = 0;
-	while (str[i] && str[i] != '\n')
+	uc = (unsigned char) c;
+	while (s[i])
+	{
+		if (s[i] == uc)
+			return (str + i);
 		i++;
-	if (str[i] == '\0')
-		return (0);
-	return (i);
+	}
+	if (uc == '\0')
+		return (str + i);
+	return (NULL);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int		len;
-	char	*jstring;
-	int		i;
+	char		*jstring;
+	size_t		i;
+	size_t		j;
 
-	len = ft_strlen(s1) + ft_strlen(s2);
-	i = 0;
-	jstring = malloc(len * sizeof(char) + 1);
-	if (jstring == NULL)
-		return (NULL);
-	len += 1;
+	i = -1;
+	j = 0;
 	if (!s1)
 	{
-		s1 = malloc(sizeof(char) * 1);
+		s1 = malloc(1 * sizeof(char));
 		s1[0] = '\0';
 	}
-	while (--len)
-	{
-		if (*s1)
-			jstring[i] = *s1++;
-		else
-			jstring[i] = *s2++;
-		i++;
-	}
+	if (!s1 || !s2)
+		return (NULL);
+	jstring = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!jstring)
+		return (NULL);
+	while (s1[++i])
+		jstring[i] = s1[i];
+	while (i < ft_strlen(s1) + ft_strlen(s2) && s2[j])
+		jstring[i++] = s2[j++];
 	jstring[i] = '\0';
+	free(s1);
 	return (jstring);
 }
