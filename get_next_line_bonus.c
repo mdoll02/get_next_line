@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdoll <mdoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:18:42 by mdoll             #+#    #+#             */
-/*   Updated: 2023/01/07 12:53:14 by mdoll            ###   ########.fr       */
+/*   Updated: 2023/01/07 12:50:52 by mdoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read(int fd, char *remainder);
 char	*ft_get_line(char *remainder);
@@ -18,16 +18,16 @@ char	*ft_resize(char *remainder);
 
 char	*get_next_line(int fd)
 {
-	static char	*remainder;
+	static char	*remainder[MAX_FD];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE < 1 || fd > MAX_FD)
 		return (NULL);
-	remainder = ft_read(fd, remainder);
-	if (!remainder)
+	remainder[fd] = ft_read(fd, remainder[fd]);
+	if (!remainder[fd])
 		return (NULL);
-	line = ft_get_line(remainder);
-	remainder = ft_resize(remainder);
+	line = ft_get_line(remainder[fd]);
+	remainder[fd] = ft_resize(remainder[fd]);
 	return (line);
 }
 
